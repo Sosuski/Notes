@@ -1,0 +1,44 @@
+/* .body {
+  width: 100vw;
+  height: 100vw;
+} */
+.btn {
+  height: 20px;
+  width: 50px;
+  background: blue;
+}
+
+.mainDiv {
+    display: flex;
+}
+
+.notes {
+  display: block;
+  position: relative;
+  width: 20vw;
+  height: 150px;
+  background: green;
+  border: black solid 3px;
+  margin: 15px;
+}
+
+.titles {
+    font-family: 'Times New Roman', Times, serif;
+    border-bottom: solid 2px black; 
+    overflow-wrap: break-word;
+}
+
+.descriptions {
+    text-overflow: wrap;
+    overflow-wrap: break-word;
+}
+
+.edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+ul {
+    margin-left: 300px;
+}
