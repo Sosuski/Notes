@@ -1,44 +1,35 @@
-/* .body {
-  width: 100vw;
-  height: 100vw;
-} */
-.btn {
-  height: 20px;
-  width: 50px;
-  background: blue;
+ body {
+  background: #fff;
+} 
+
+.Container {
+    text-align: center;
 }
 
-.mainDiv {
+.textContainer {
+    margin: 0;
+}
+
+.hContainer {
+    margin-top: 20%;
+}
+.buttons {
+    font-size: 15px;
+    height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-color: blue;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px 10px 5px 10px;
+}
+
+.btnContainer {
+    justify-content: center;
+    align-items: center;
+    /* border: black solid 2px; */
     display: flex;
-}
-
-.notes {
-  display: block;
-  position: relative;
-  width: 20vw;
-  height: 150px;
-  background: green;
-  border: black solid 3px;
-  margin: 15px;
-}
-
-.titles {
-    font-family: 'Times New Roman', Times, serif;
-    border-bottom: solid 2px black; 
-    overflow-wrap: break-word;
-}
-
-.descriptions {
-    text-overflow: wrap;
-    overflow-wrap: break-word;
-}
-
-.edit {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-ul {
-    margin-left: 300px;
+    width: 500px;
+    height: 100px;
+    margin: 0 auto 19% auto
 }

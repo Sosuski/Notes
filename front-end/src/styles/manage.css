@@ -1,0 +1,104 @@
+.mainDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.notes {
+  display: block;
+  position: relative;
+  width: 21vw;
+  height: 13vw;
+  color: black;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(62, 154, 154, 0.653);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.titles {
+    font-family: 'Times New Roman', Times, serif;
+    border-bottom: solid 2px black; 
+    overflow-wrap: break-word;
+}
+
+.titlesDiv {
+    text-align: center;
+    font-size: 20px;
+}
+
+
+.descriptions {
+    text-overflow: wrap;
+    overflow-wrap: break-word;
+    padding-bottom: 10px;
+}
+
+.edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+ul {
+   display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.buttons1 {
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-color: rgb(187, 187, 187);
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px 5px 5px 5px;
+}
+
+.a2 {
+    margin-left: 50% !important;
+    transform: translate(-50%, 0)!important;
+}
+
+.test {
+    display: none;
+}
+
+.modal_note {
+  display: block;
+  position: absolute;
+  width: 50%;
+  height: 40%;
+  color: black;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(35, 94, 94);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.bottomManage {
+    display: flex; 
+
+}
+
+.bottomPagination {
+    width: 275px;
+    vertical-align: middle !important;
+    border: black solid 2px;
+}
+
+.testtest {
+    display: inline-block;
+    background: red;
+    width: 30px;
+    height: 60px;
+    
+}

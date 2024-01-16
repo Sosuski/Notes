@@ -1,3 +1,18 @@
+.addContainer {
+  text-align: center;
+  margin: auto;
+  width: 500px;
+}
+
+.title_field {
+  border: none;
+}
+
+.title_field:focus {
+  border: black 2px solid;
+  outline: none;
+}
+
 .note_field {
   text-align: left;
   margin: 1px;
@@ -8,5 +23,69 @@
 }
 
 .note_field::placeholder {
-    text-align: top;
+  text-align: top;
+}
+
+.note_field:focus {
+  border: black 2px solid;
+  outline: none;
+}
+
+.back {
+  background: rgb(78, 78, 78);
+}
+
+.select {
+  margin: 10px;
+}
+
+.select:focus {
+  border: black 2px solid;
+  outline: none;
+}
+
+.paragraph {
+  font-size: 40px;
+  font-family: monospace;
+   font-family: FreeMono, monospace;
+  font-family: "Didot", "serif";
+  font-family: Snell Roundhand, cursive;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Caveat", cursive; 
+}
+
+.f0 {
+  font-family: monospace !important;
+}
+
+.f1 {
+  font-family: FreeMono, monospace !important;
+}
+
+.f2 {
+  font-family: "Didot", "serif" !important;
+}
+
+.f3 {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.f4 {
+  font-family: "Caveat", cursive !important;
+}
+
+.c0 {
+  background: rgb(187, 187, 187) !important;
+}
+
+.c1 {
+  background: red !important;
+}
+
+.c2 {
+  background: green !important;
+}
+
+.c3 {
+  background: blue !important;
 }
