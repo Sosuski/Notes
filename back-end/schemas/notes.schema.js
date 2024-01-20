@@ -5,7 +5,7 @@ const notesSchema = new Schema({
   title: { type: String, require: true },
   description: { type: String, required: true },
   font: { type: String, required: true },
-  color: { type: String, required: true }
+  color: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Notes", notesSchema);

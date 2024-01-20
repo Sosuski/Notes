@@ -1,0 +1,24 @@
+.loadingScreen {
+  width: 100vw;
+  height: 60vh;
+  justify-content: center;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.myImg {
+    margin-left: 25%;
+  -webkit-animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(359deg);
+  }
+  to {
+    -webkit-transform: rotate(0deg);
+  }
+}

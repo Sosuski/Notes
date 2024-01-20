@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/manage.css";
 import Edit from "./Edit";
+import Loading from "./Loading";
 
 const Manage = () => {
   const [notes, setNotes] = useState("");
@@ -13,6 +14,7 @@ const Manage = () => {
   const pages = useRef(0);
   const [page, setPages] = useState(0);
   const [pagination, setPagination] = useState([]);
+  const [loadingComp, setLoadingComp] = useState(true);
 
   const navigate = useNavigate();
   let handleNavigate = (prop) => {
@@ -36,6 +38,9 @@ const Manage = () => {
   };
 
   useEffect(() => {
+    setLoadingComp(true)
+    console.log("pages", pages.current.value);
+    // fetchPaginationData(0) check if works
     console.log(fetchPaginationData(0));
   }, []);
 
@@ -68,36 +73,38 @@ const Manage = () => {
   }, [editComp]);
 
   const handleDelete = async (id) => {
-    const response = await fetch("http://localhost:8000/delete", {
-      method: "POST",
+    const response = await fetch("http://localhost:8000/notes", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         Id: id,
+        key: localStorage.getItem("auth_token"),
       }),
     }).then(() => {});
   };
 
   const fetchPaginationData = async (index) => {
-    console.log(pages.current.value, index)
+    console.log("inner", pages.current.value);
     const response = await fetch("http://localhost:8000/pagination", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        pages: pages.current.value,
-        idx: index
+        perPage: parseInt(pages.current.value),
+        idx: index,
       }),
     }).then((res) => {
       return res.json();
     });
-    console.log('response values', response)
+    setLoadingComp(false);
+    console.log("response values", response);
     setPagination(response.pageCnt);
     setNotes(response.arr); // 20 had some weird glitch where it's only 1 page
-    return response
-  }
+    return response;
+  };
 
   const handlePageChanges = async () => {
     const changedPages = pages.current.value;
@@ -105,18 +112,8 @@ const Manage = () => {
     setPages(changedPages);
     console.log(pages.current.value);
     fetchPaginationData(0);
-    // console.log("here", response);
-    // setPagination(response);
-    // setNotes(response[pageIndex-1]); // 20 had some weird glitch where it's only 1 page
-    // setAllNotes(response);
-    // console.log('all notes', response)
     console.log(notes);
   };
-
-  const handlePageSwitch = (idx) =>{
-    // setPageIndex(idx);
-    fetchPaginationData(idx)
-  }
 
   return (
     <div>
@@ -126,12 +123,13 @@ const Manage = () => {
           ref={pages}
           className="select"
           onChange={() => {
+            setLoadingComp(true)
             handlePageChanges();
           }}
           onClick={() => {
             console.log(pages.current.value);
           }}
-        >
+          >
           <option value="" disabled="true">
             Per page...
           </option>
@@ -142,6 +140,7 @@ const Manage = () => {
           <option value="20">20</option>
         </select>
         <div className="mainDiv">
+          {loadingComp && <Loading/>}
           <ul>
             {modal &&
               note.map((idx) => (
@@ -167,7 +166,7 @@ const Manage = () => {
                   </div>
                 </div>
               ))}
-            {notes &&
+            {!loadingComp && notes &&
               notes.map((note, index) => (
                 <div className={"notes " + note.font + " " + note.color}>
                   <div className="titlesDiv">
@@ -220,16 +219,24 @@ const Manage = () => {
           )}
         </div>
         <div className="bottomManage a2">
-          {pages.current.value != "all" && (<div className="bottomPagination">
-            {pagination &&
-              pagination.map((arr, index) => { 
-                return (
-                  <div className="testtest" onClick={()=>{handlePageSwitch(index)}}>
-                    {index+1}
-                  </div>
-                );
-              })}
-          </div>)}
+          {pages.current.value != "all" && (
+            <div className="bottomPagination">
+              {pagination &&
+                pagination.map((arr, index) => {
+                  return (
+                    <div
+                      className="testtest"
+                      onClick={() => {
+                        setLoadingComp(true);
+                        fetchPaginationData(index);
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                  );
+                })}
+            </div>
+          )}
           <button
             className="buttons2"
             onClick={() => {

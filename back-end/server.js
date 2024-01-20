@@ -1,11 +1,23 @@
 const express = require("express");
-server = express();
+const server = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const Notes = require("./schema.js");
+const Notes = require("./schemas/notes.schema.js");
+const Users = require("./schemas/users.schema.js");
+const jwt = require("jsonwebtoken");
+const notesRouter = require("./routers/notes.router.js");
+const paginationRouter = require("./routers/pagination.router.js");
+const registerRouter = require("./routers/register.router.js");
+const loginRouter = require("./routers/login.router.js");
+const roleRouter = require("./routers/role.router.js");
 
 server.use(express.json());
 server.use(cors({ origin: "*" }));
+server.use(notesRouter);
+server.use(paginationRouter);
+server.use(registerRouter);
+server.use(loginRouter);
+server.use(roleRouter);
 
 mongoose.connect("mongodb://localhost:27017/Notes", {
   useNewUrlParser: true,
@@ -17,62 +29,7 @@ db.once("open", function () {
   ("Connected successfully");
 });
 
-server.post("/add", async (req, res) => {
-  console.log("there", req.body);
-  let noteDoc = {
-    title: req.body.title,
-    description: req.body.description,
-    font: req.body.font,
-    color: req.body.color,
-  };
-  console.log(noteDoc);
-  const note = new Notes(noteDoc);
-  await note.save();
-
-  res.json(noteDoc);
-});
-
-server.get("/notes", async (req, res) => {
-  let docs = await Notes.find({});
-  console.log(docs);
-  res.json(docs);
-});
-
-server.post("/edit", async (req, res) => {
-  const filter = { _id: req.body.Id };
-  const options = { upsert: false };
-  const updateDoc = {
-    $set: {
-      title: req.body.title,
-      description: req.body.description,
-    },
-  };
-  const result = await Notes.updateOne(filter, updateDoc, options);
-});
-
-server.post("/delete", async (req, res) => {
-  await Notes.deleteOne({ _id: req.body.Id });
-});
-
-server.post("/pagination", async (req, res) => {
-  let notesPerPage = req.body.pages, pageIdx = req.body.idx, arr = [], docs = await Notes.find({}), pages = 0, pagesArr = [];
-  // the amount of pages is docs.length / pages + 1 if docs.length%pages != 0
-  if(docs.length > notesPerPage){
-    if(docs.length % notesPerPage == 0){
-      pages = docs.length / notesPerPage;
-    } else pages = (docs.length / notesPerPage)+1;
-  } else pages = 1
-    for(let i = 1; i < pages; i++){
-      pagesArr.push("");
-    }
-    for (let i = 0; i < notesPerPage; i++) {
-      if(docs[notesPerPage*pageIdx+i] == null) break;
-      arr.push(docs[notesPerPage*pageIdx+i]);
-    }
-    console.log(pagesArr)
-
-  res.json({arr: arr, pageCnt: pagesArr})
-}); 
+// router -> middleware -> controller
 
 server.listen(8000, () => {
   ("Server is  on");

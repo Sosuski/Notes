@@ -14,16 +14,20 @@ const Edit = (props) => {
   const [color, setColor] = useState("");
 
   const handleSubmit = async (event) => {
+    console.log(props.value.id, "id")
     event.preventDefault();
-    const response = await fetch("http://localhost:8000/edit", {
-      method: "POST",
+    const response = await fetch("http://localhost:8000/notes", {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title: title.current.value,
         description: description.current.value,
+        font: font,
+        color: color,
         Id: props.value.id,
+        key: localStorage.getItem("auth_token")
       }),
     }).then((res) => {
       return res.json();

@@ -1,28 +1,46 @@
 import "../styles/add.css";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 function Add() {
   const title = useRef("");
   const description = useRef("");
   const fonts = useRef("");
-  const colors = useRef("")
+  const colors = useRef("");
   const navigate = useNavigate();
   const [font, setFont] = useState("");
   const [color, setColor] = useState("");
-  
-  console.log(fonts.current)
+
+  // console.log(fonts.current);
 
   let handleNavigate = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await fetch("http://localhost:8000/role", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: localStorage.getItem("auth_token"),
+        }),
+      }).then((res) => res.json());
+      console.log("add", response);
+      if (response.role != "admin") navigate("/NotFound");
+    };
+
+    fetchData();
+  }, []);
+
   const handleSubmit = async (event) => {
     console.log("hererererere");
-    console.log(font, color)
+    console.log(font, color);
     // console.log(title.current.value, description.current.value)
     event.preventDefault();
-    const response = await fetch("http://localhost:8000/add", {
+    const response = await fetch("http://localhost:8000/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,6 +48,7 @@ function Add() {
       body: JSON.stringify({
         title: title.current.value,
         description: description.current.value,
+        key: localStorage.getItem("auth_token"),
         font: font,
         color: color
       }),
@@ -43,8 +62,8 @@ function Add() {
     const changedFont = fonts.current.value;
     console.log(changedFont);
     setFont(changedFont);
-    console.log(font)
-  }
+    console.log(font);
+  };
 
   const handleColorChanges = () => {
     const changedColor = colors.current.value;
@@ -68,10 +87,25 @@ function Add() {
               <div>
                 <label>Note Title:</label>
 
-                <input className={"title_field "+font+" "+color} type="text" ref={title} />
+                <input
+                  className={"title_field " + font + " " + color}
+                  type="text"
+                  ref={title}
+                />
 
-                <select ref={fonts} className="select" onChange={()=>{handleFontChanges()}} onClick={()=>{console.log(fonts.current)}}>
-                  <option value="" disabled="true" selected="true">Default Font</option>
+                <select
+                  ref={fonts}
+                  className="select"
+                  onChange={() => {
+                    handleFontChanges();
+                  }}
+                  onClick={() => {
+                    console.log(fonts.current);
+                  }}
+                >
+                  <option value="" disabled="true" selected="true">
+                    Default Font
+                  </option>
                   <option value="f0">monospace</option>
                   <option value="f1">FreeMono</option>
                   <option value="f2">Didot</option>
@@ -79,8 +113,19 @@ function Add() {
                   <option value="f4">Caveat</option>
                 </select>
 
-                <select ref={colors} className="select" onChange={()=>{handleColorChanges()}} onClick={()=>{console.log(colors.current)}}>
-                  <option value="" disabled="true" selected="true">Choose Color</option>
+                <select
+                  ref={colors}
+                  className="select"
+                  onChange={() => {
+                    handleColorChanges();
+                  }}
+                  onClick={() => {
+                    console.log(colors.current);
+                  }}
+                >
+                  <option value="" disabled="true" selected="true">
+                    Choose Color
+                  </option>
                   <option value="c1">Red</option>
                   <option value="c2">Green</option>
                   <option value="c3">Blue</option>
@@ -92,7 +137,7 @@ function Add() {
                 <label>Note description</label>
                 <div>
                   <textarea
-                    className={"note_field "+font+" "+color}
+                    className={"note_field " + font + " " + color}
                     type="text"
                     ref={description}
                   />
